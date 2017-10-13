@@ -291,7 +291,6 @@ public class ETFClient extends AbstractMetadataValidator {
 				String fileNameWithoutExtension = FilenameUtils.removeExtension(fileName);
 				String fileNameWithCorrectExtension;
 				try {
-					Charset charset = ContentType.getOrDefault(entity).getCharset();
 					String mimeType = ContentType.getOrDefault(entity).getMimeType();
 					switch (mimeType) {
 					case "text/xml":
@@ -309,10 +308,10 @@ public class ETFClient extends AbstractMetadataValidator {
 
 					}
 
-					String entityContent = EntityUtils.toString(entity, charset);
+					String entityContent = EntityUtils.toString(entity, "UTF-8");
 					File outputFile = new File(outputDirectory, fileNameWithCorrectExtension);
 					LOGGER.info("Start writing result to " + outputFile.getAbsolutePath());
-					fileWriterWithEncoding = new FileWriterWithEncoding(outputFile, charset);
+					fileWriterWithEncoding = new FileWriterWithEncoding(outputFile, "UTF-8");
 					fileWriterWithEncoding.write(entityContent);
 					LOGGER.info("Finished writing result to " + outputFile.getAbsolutePath());
 				} finally {
